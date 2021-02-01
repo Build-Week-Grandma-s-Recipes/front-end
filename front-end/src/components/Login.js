@@ -1,12 +1,12 @@
 import React from 'react'
 
-export default function Login (){
+export default function Login () {
 
 
 
     return (
         <div>
-    <h2> hi</h2>
+    <h1> hi</h1>
     </div>
     )
 }

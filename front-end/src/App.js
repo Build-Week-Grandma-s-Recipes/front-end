@@ -1,8 +1,9 @@
+import React from 'react'
 import './App.css';
 import Login from './components/Login'
 import Registration from './components/Registration'
 
-function App() {
+export default function App() {
   return (
     <div>
     <Login/>
@@ -10,5 +11,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
