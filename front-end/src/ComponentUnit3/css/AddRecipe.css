@@ -1,0 +1,75 @@
+.mainForm {
+    margin:4vh auto;
+    border: aliceblue solid 2px;
+    width: 65vw;
+    border-radius:45px;
+    background-color: rgba(255, 255, 255, 0.849);
+}
+.form{
+    display: flex;
+    flex-wrap:wrap;
+    margin:1vh 1vw;
+    justify-content: space-around;
+}
+.form-group{
+    width:25vw ;
+}
+.form div{
+    margin:2vh 0;
+}
+.input div{
+    margin-top:5vh;
+}
+.option select{
+   height: 24px;
+   border-top-right-radius:15px;
+   border-bottom-right-radius:15px;
+   border:solid 1px rgba(214, 211, 211, 0.849);
+   border-top-left-radius:0px;
+   border-bottom-left-radius:0px;
+}
+.option input{
+    width:7vw;
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
+}
+.error{
+    font-size:0.7rem;
+    color:red;
+}
+input{
+    width:12vw;
+    height:20px;
+    border-radius:15px;
+    border:solid 1px rgba(214, 211, 211, 0.849);
+}
+select{
+    border-radius:15px;
+}
+.category select{
+width:5vw;
+height:3vh
+}
+textarea{
+    height: 5vh;
+    width: 22vw;
+}
+input{
+    text-align: center;
+}
+button{
+    height:5vh;
+    border-radius:15px;
+    border:solid 1px rgba(255, 255, 255, 0.849);
+}
+.displaySuccess{
+    opacity:100%;
+}
+.hideSuccess{
+    opacity: 0;
+}
+.itemBody{
+   background-image: url('../img/bckgAdd.jpg');
+   background-size:cover;
+   height: 100vh;
+}
