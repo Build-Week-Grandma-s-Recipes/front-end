@@ -25,19 +25,25 @@ align-items: center;
 justify-content: space-around;
 `
 const schema = yup.object().shape({
-    username: yup.string().required('username is required'),
-    password: yup.string().required('password required').min(6,'password needs to be 6 chars min'),
+    username: yup.string().required('Username required.'),
+    password: yup.string().required('Password required.').min(6,'Password must be 6 or more characters'),
 })
 
 export default function Registration() {
 const [registration, setRegistration] = useState({username: '',password:'',});
 const [disabled, setDisabled] = useState(true);
-// const [error, setError] = useState()
+const [errors, setErrors] = useState({username: '',password: ''})
+
+const setFormErrors = (name, value) =>{
+    yup.reach(schema, name).validate(value)
+        .then(()=> setErrors({...errors, [name]: ''}))
+        .catch(err => setErrors({...errors, [name]: err.errors[0]}))
+}
 
 const onChange = (evt) => {
     const {name, value} = evt.target;
-    setRegistration({...registration,
-        [name]: value})
+    setFormErrors(name, value)
+    setRegistration({...registration, [name]: value})
   };
 
 useEffect(()=>{
@@ -63,6 +69,10 @@ useEffect(()=>{
             placeholder="Password"
             maxLength="30"
           />
+          <div style={{color: '#B61118',fontWeight: 'bold'}}>
+              <div>{errors.username}</div>
+              <div>{errors.password}</div>
+              </div>
           <button disabled={disabled}>Create Account</button>
           <a href='#'>Back to Login</a>
             </RegForm>
