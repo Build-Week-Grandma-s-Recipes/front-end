@@ -22,7 +22,7 @@
     
 .logOutLink:hover{
         color:#fb5a29;
-        transform: scale(1.2);
+        /* transform: scale(1.2); */
     }
 .navBar{
     display: flex;

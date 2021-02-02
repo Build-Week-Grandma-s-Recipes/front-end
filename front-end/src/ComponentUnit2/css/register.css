@@ -6,6 +6,9 @@ background-attachment: fixed;
 background-position: center;
 height: 100vh;
 }
+.headerDiv{
+    width:100%;
+}
 
 .regBox{
     /* // border: 1px solid blue; */

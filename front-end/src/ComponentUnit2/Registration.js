@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import * as yup from 'yup'
 import axios from 'axios'
 import './css/register.css'
 import {Link} from 'react-router-dom'
-import Footer from '../ComponentUnit3/Footer'
+import Footer from '../ComponentUnit2/Footer'
+import Header from '../ComponentUnit2/Header'
 
 const schema = yup.object().shape({
     username: yup.string().required('Username required.'),
@@ -51,6 +52,7 @@ const onSubmit = evt=>{
     return (
         <div className='img'>
         <div className='regBox' >
+            <div className='headerDiv'><Header/></div>
             <form className='regForm' onSubmit={onSubmit}>
                 <h1>Register</h1>
             <input
