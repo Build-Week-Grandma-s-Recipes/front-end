@@ -3,32 +3,9 @@ import styled from 'styled-components'
 import * as yup from 'yup'
 import axios from 'axios'
 import './css/register.css'
+import {Link} from 'react-router-dom'
+import Footer from '../ComponentUnit3/Footer'
 
-const RegBox = styled.div`
-// border: 1px solid blue;
-width: 100%;
-height: 100%;
-display: flex;
-flex-flow: column nowrap;
-align-items: center;
-`
-const RegForm = styled.form`
-border: 5px solid rgb(0,0,0,.3);
-// background-color: rgb(255,255,255,.6);
-background-color: rgb(0,0,0,.6);
-color: white;
-width: 350px;
-height: 300px;
-margin-top: 15%;
-display: flex;
-flex-flow: column nowrap;
-align-items: center;
-justify-content: space-around;
-a{
-    text-decoration: none;
-    color: white;
-}
-`
 const schema = yup.object().shape({
     username: yup.string().required('Username required.'),
     password: yup.string().required('Password required.').min(6,'Password must be 6 or more characters'),
@@ -73,12 +50,13 @@ const onSubmit = evt=>{
 
     return (
         <div className='img'>
-        <RegBox >
-            <RegForm onSubmit={onSubmit}>
+        <div className='regBox' >
+            <form className='regForm' onSubmit={onSubmit}>
                 <h1>Register</h1>
             <input
             type="text"
             name="username"
+            className='regInput'
             onChange={onChange}
             value={registration.username}
             placeholder="Username"
@@ -87,6 +65,7 @@ const onSubmit = evt=>{
           <input
             type="text"
             name="password"
+            className='regInput'
             onChange={onChange}
             value={registration.password}
             placeholder="Password"
@@ -96,11 +75,14 @@ const onSubmit = evt=>{
               <div>{errors.username}</div>
               <div>{errors.password}</div>
               </div>
-          <button disabled={disabled}>Create Account</button>
-          <a href='#'>Back to Login</a>
-          {/* <Link to='/' className="logOutLink">Back to Login</Link> */}
-            </RegForm>
-        </RegBox>
+          <button className='regBtn' disabled={disabled}>Create Account</button>
+          {/* <a href='#'>Back to Login</a> */}
+          <Link to='/' className="logOutLink">Back to Login</Link>
+            </form>
+            <div style={{width: '100%'}}>
+            <Footer/>
+            </div>
+        </div>
         </div>
     )
 }

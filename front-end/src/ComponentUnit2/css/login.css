@@ -1,6 +1,5 @@
-.title{
+/*.title{
     background-color: hsl(9, 100%, 64%, 0.25);
-    /* border: 1px solid black; */
   }
   .loginBody{
     background-image: url('../images/bgRotate.jpg');
@@ -21,7 +20,6 @@
       color: rgb(239, 242, 248);
       text-align: center;
       text-transform: uppercase;
-      /* margin: 0 0; */
   }
   
   .loginForm{
@@ -72,4 +70,4 @@
   .registeration-link span {
     color: darkred;
     font-weight: bold;
-  }
+  }*/
