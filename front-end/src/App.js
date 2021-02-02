@@ -6,7 +6,9 @@ import Registration from './components/Registration'
 export default function App() {
   return (
     <div>
-    <Login/>
+    <Login
+      //values = {formValues}
+    />
     <Registration/>
     </div>
   );
