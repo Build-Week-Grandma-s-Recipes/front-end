@@ -10,7 +10,7 @@ function Header(){
         <div className='navBar '>
             <div className='mainText'>
                 <div className='myName'>
-                <h1>GrandMa Recipe</h1>
+                <h1 className='HeaderTitle'>GrandMa Recipe</h1>
                 </div>
                 
             </div>

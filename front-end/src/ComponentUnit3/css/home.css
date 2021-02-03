@@ -1,0 +1,13 @@
+.itemList{
+    background-color: rgba(255, 255, 255, 0.849);;
+    width: 75vw;
+    margin:2vh auto;
+    border-radius:25px;
+    display:flex;
+    flex-wrap:wrap;
+}
+.itemList h1{
+    color: rgba(99, 96, 96, 0.849);
+    font-size:1.2rem;
+    margin:1vh 3vw;
+}

@@ -1,116 +1,62 @@
-
-// eslint-disable-next-line 
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import './css/AddRecipe.css'
-import * as yup from 'yup'
-// import './cssPage/ItemEdit.css'
+
 import Footer from './Footer'
 import Header from './Header'
-// import { axiosWithAuth } from './AxiosWithAuth'
-// import axios from "axios"
+import axiosWithAuth from './AxiosWithAuth'
+
 
 function ItemAdd (props) {
         
     const emptyItem = {
-        recipe: '',
-        source: '',
-        instruction1:'',
-        instruction2:'',
-        ingredients: '',
-        quantity:'',
-        metric:'',
-        instruction3:'',
-        instruction4:'',
-        instruction5:'',
-        category:''
-    };
+        recipe_name: '',
+        source_name: '',
+        // instructions:[{instruction1:'', instruction2:'', instruction3:'', instruction4:'', instruction5:''}],
+        // ingredients:[{ingredient1:'', ingredient2:'', ingredient3:'', ingredient4:''}],
+        category_id:1
+    };  
         const [form, setForm] = useState(emptyItem);
-        // eslint-disable-next-line 
         const [buttonDisable, setButtonDisable] = useState(true);
-        const [errors, setErrors] = useState({
-            recipe: '',
-            source: '',
-            instruction1:'',
-            category:''
-        });
-        // eslint-disable-next-line 
+        const [errors, setErrors] = useState({recipe_name: '',source_name: ''});
         const [submitComplete, setSubmitComplete]=useState(false)
-    
-        const formSchema = yup.object().shape({
-                recipe: yup
-                    .string()
-                    .required()
-                    .label('Recipe')
-                    .min(4, 'Must be at least 4 characters.'),
-                source: yup
-                    .string()
-                    .required()
-                    .label('Source')
-                    .min(4, 'Must be at least 4 characters.'),
-                instruction1: yup
-                    .string()
-                    .required()
-                    .label('Instruction')
-                    .min(10, 'must be at least 10 characters.'),
-                category: yup
-                    .string()
-                    .required()
-                    .label('Category')
-                    .min(10, 'must be at least 10 characters.'),
-        })
-                
-            const validateChange = (e) => {
-                yup
-                    .reach(formSchema, e.target.name)
-                    .validate(e.target.name === 'terms' ? e.target.checked : e.target.value)
-                    .then((valid) => {
-                        setErrors({
-                            ...errors,
-                            [e.target.name]: '',
-                        });
-                    })
-                    .catch((err) => {
-                        console.log(err);
-    
-                        setErrors({
-                            ...errors,
-                            [e.target.name]: err.errors[0],
-                        });
-                    });
-            };    
             const inputChange = (e) => {
                     e.persist();
                     setForm({...form,[e.target.name]:e.target.value});
-                    validateChange(e);
+                    
+                    console.log(form)
+                    
+            };
+            // const inChange = e =>{
+            //     e.persist()
+            //     setForm({...form {...ingredients, [e.target.name]:e.target.value})})
+            //     // final.ingredients[0] = {...itm}
+            //     console.log(final)
+            // }
+            // const inTChange =e =>{
+            //     e.persist()
+            //     setInstru({...instru,[e.target.name]:e.target.value})
+
+            //     console.log(instru)
+            // }
+            const formSubmit = (e) => {
+                    e.preventDefault();
+                    console.log(form)
+                    axiosWithAuth()
+                        .post('/api/recipes',
+                         form,
+                        {headers:{authorization:localStorage.getItem('token')}
+                    })
+                        .then(resp=>{
+                            console.log(resp)
+                            setSubmitComplete(true)
+                            setForm(emptyItem)
+                        })
+                        .catch(err=>{
+                            console.log(err)
+                        })
+                    
             };
 
-
-            // const formSubmit = (e) => {
-            //         e.preventDefault();
-            //         console.log(form)
-            //         axios
-            //             .post('',
-            //              form,
-            //             {headers:{authorization:localStorage.getItem('token')}
-            //         })
-            //             .then(resp=>{
-            //                 console.log(resp)
-            //                 setSubmitComplete(true)
-            //                 setForm(emptyItem)
-            //             })
-            //             .catch(err=>{
-            //                 console.log(err)
-            //             })
-                    
-            // };
-
-
-            useEffect(() => {
-                    formSchema.isValid(form).then((isValid) => {
-                        setButtonDisable(!isValid);
-                    });
-            }, [form, formSchema]);
-            
 
         return(
 
@@ -120,55 +66,52 @@ function ItemAdd (props) {
                 <div className='bar'>
                 </div>
                 <div className='mainForm'>
-                    <form className='form' >
+                    <form className='form' onSubmit={formSubmit}>
                         <div className='input'>
                         <div class="form-group">
                             <label >Recipe Name</label>
-                            <p className='error'>{errors.recipe}</p>
-                            <input type="text" name='recipe' id='recipe' onChange={inputChange} className="form-control" placeholder="Recipe Name"/>
+                            <p className='error'>{errors.recipe_name}</p>
+                            <input className='inputRecipe' type="text" name='recipe_name' id='recipe_name' onChange={inputChange} className="form-control" placeholder="Recipe Name"/>
                         </div>
                         <div class="form-group">
                             <label>Source</label>
-                            <p className='error'>{errors.source}</p>
-                            <input type="text" name='source' id='source' onChange={inputChange} className="form-control" placeholder="Source"/>
+                            <p className='error'>{errors.source_name}</p>
+                            <input className='inputRecipe' type="text" name='source_name' id='source_name' onChange={inputChange} className="form-control" placeholder="Source"/>
                         </div>
                        
                         <div className = 'ingredientForm'>
+                    
                                 <div class="form-group">
-                                    <label>Ingredients</label>
-                                    <input type="text" name='ingredients' id='ingredients' className="form-control" onChange={inputChange} placeholder="Ingredients"/>
+                                    <label>Ingredients 1</label>
+                                    <input className='inputRecipe' type="text" name='ingredient1' id='ingredient1' className="form-control" onChange={inputChange} placeholder="Ingredients 1"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingredients 2</label>
+                                    <input className='inputRecipe' type="text" name='ingredient2' id='ingredient2' className="form-control" onChange={inputChange} placeholder="Ingredients 2"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingredients 3</label>
+                                    <input className='inputRecipe' type="text" name='ingredient3' id='ingredient3' className="form-control" onChange={inputChange} placeholder="Ingredients 3"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingredients 4</label>
+                                    <input className='inputRecipe' type="text" name='ingredient4' id='ingredient4' className="form-control" onChange={inputChange} placeholder="Ingredients 4"/>
                                 </div>
                                 <div class="form-group option">
-                                <div class="form-group">
-                                    <label>Quantity</label>
-                                    <input type="text" name='quantity' id='quantity' className="form-control" onChange={inputChange} placeholder="Quantity"/>
-                                    <select name='metric' id='metric'>
-                                        <option value='grams' onChange={inputChange}>Grams</option>
-                                        <option value='milliliter'onChange={inputChange}>Milliliter</option>
-                                        <option value='unit' onChange={inputChange}>Unit</option>
-                                    </select>
-                                </div>
                                 </div>
                             <div class="form-group  category">
-                            <label>Category </label>
-                                <select id='category'>
+                            {/* <label>Category </label>
+                                <select name='category_id'  id='category_id'>
                                     <option value='entree' onChange={inputChange}>Entree</option>
-                                    <option value='Main'onChange={inputChange}>Main</option>
-                                    <option value='Dessert' onChange={inputChange}>Dessert</option>
+                                    <option value='main' onChange={inputChange}>Main</option>
+                                    <option value='dessert' onChange={inputChange}>Dessert</option>
                                 </select>
-                                <p className='error'>{errors.category}</p>
-                                <div className={(submitComplete===true)? "displaySuccess":"hideSuccess"}>
-                            Success! Your Recipe is Online.
-                        </div>
+                                <p className='error'>{errors.category}</p> */}
+                                
                             </div>
                         </div>
                         </div>
                         <div className='instruction'>
-                        <div class="form-group">
-                            <label>Ingredients</label>
-                            <p className='error'>{errors.instruction}</p>
-                            <textarea type="text" name='ingredients' id='ingredients' onChange={inputChange} className="form-control" placeholder="ingredients"/>
-                        </div>
                         <div class="form-group">
                             <label>Step 1</label>
                             <p className='error'>{errors.instruction}</p>
@@ -189,7 +132,12 @@ function ItemAdd (props) {
                             <p className='error'>{errors.instruction}</p>
                             <textarea type="text" name='instruction4' id='instruction4' onChange={inputChange} className="form-control" placeholder="Step 4"/>
                         </div>
-                        <button type="submit" disabled={(submitComplete===true) ? true:buttonDisable} className="btn submitBtn">Add Recipe</button>
+                        <div class="form-group">
+                            <label>Step 5</label>
+                            <p className='error'>{errors.instruction}</p>
+                            <textarea type="text" name='instruction5' id='instruction5' onChange={inputChange} className="form-control" placeholder="Step 5"/>
+                        </div>
+                        <button type="submit"  className="btn submitBtn">Add Recipe</button>
                         </div>
                     </form>
                     
