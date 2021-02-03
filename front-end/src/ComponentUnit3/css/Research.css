@@ -10,10 +10,13 @@
     border-bottom-right-radius: 0px;
     border: rgba(223, 222, 222, 0.849) solid 1px;
     background-color:rgba(255, 255, 255, 0.849);
+    margin:0;
+    padding:0;
+    display:inline
 }
 .researchBar button{
     width: 6vw;
-    height: 34px;
+    height: 32px;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     border-top-left-radius: 0px;
@@ -21,7 +24,25 @@
     border:rgba(223, 222, 222, 0.849) solid 1px;
     font-weight: 550;
     color:rgb(88, 85, 85);
-    background-color:rgba(255, 255, 255, 0.849);
+    background-color:rgb(255, 255, 255);
+    display:inline;
+    margin:0;
+    padding:0;
+    font-size:1rem;
+}
+.researchBar h1{
+    color:rgb(88, 85, 85);
+    border:rgba(223, 222, 222, 0.849) solid 1px;
+    background-color:rgba(255, 255, 255, 0.699);
+    width:20vw;
+    border-radius:30px;
+    margin:0 auto;
+    margin-bottom: 4vh;
+}
+.recipeResearch h1{
+    color:rgb(88, 85, 85);
+    font-size:1.4rem;
+    
 }
 .imgBckg{
     background-image:url('../img/backgroundResearch.jpg');

@@ -19,6 +19,9 @@
     font-size:1rem; 
     text-decoration: none;
     }
+.HeaderTitle{
+    color:rgb(88, 85, 85);
+}
     
 .logOutLink:hover{
         color:#fb5a29;

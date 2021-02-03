@@ -1,34 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import styled from 'styled-components'
 import * as yup from 'yup'
 import axios from 'axios'
 import './css/register.css'
+import {Link} from 'react-router-dom'
+import Footer from '../ComponentUnit3/Footer'
+import Header from '../ComponentUnit3/Header'
 
-const RegBox = styled.div`
-// border: 1px solid blue;
-width: 100%;
-height: 100%;
-display: flex;
-flex-flow: column nowrap;
-align-items: center;
-`
-const RegForm = styled.form`
-border: 5px solid rgb(0,0,0,.3);
-// background-color: rgb(255,255,255,.6);
-background-color: rgb(0,0,0,.6);
-color: white;
-width: 350px;
-height: 300px;
-margin-top: 15%;
-display: flex;
-flex-flow: column nowrap;
-align-items: center;
-justify-content: space-around;
-a{
-    text-decoration: none;
-    color: white;
-}
-`
 const schema = yup.object().shape({
     username: yup.string().required('Username required.'),
     password: yup.string().required('Password required.').min(6,'Password must be 6 or more characters'),
@@ -52,6 +29,7 @@ const onChange = (evt) => {
     const {name, value} = evt.target;
     setFormErrors(name, value)
     setRegistration({...registration, [name]: value})
+    console.log(registration)
   };
 // Button disable/enable toggle by validation
 useEffect(()=>{
@@ -61,10 +39,10 @@ useEffect(()=>{
 const onSubmit = evt=>{
     evt.preventDefault();
     const newUser = {username: registration.username.trim(), password: registration.password.trim()}
-    axios.post('https://node-buildwk-cookbook.herokuapp.com/api/auth/register', newUser)
+    axios.post('https://node-buildwk-cookbook.herokuapp.com/api/auth/register', newUser, {"Headers":{"Content-type": "application/json"},})
     .then(
+        setRegistration(regDefault),
         
-        setRegistration(regDefault)
     )
     .catch(err=>{
         console.log(err)
@@ -73,13 +51,15 @@ const onSubmit = evt=>{
 
     return (
         <div className='img'>
-        <RegBox >
-            <RegForm onSubmit={onSubmit}>
+        <div className='regBox' >
+            <div className='headerDiv'><Header/></div>
+            <form className='regForm' onSubmit={onSubmit}>
                 <h1>Register</h1>
             <input
             type="text"
             name="username"
             onChange={onChange}
+            className='regInput'
             value={registration.username}
             placeholder="Username"
             maxLength="30"
@@ -88,6 +68,7 @@ const onSubmit = evt=>{
             type="text"
             name="password"
             onChange={onChange}
+            className='regInput'
             value={registration.password}
             placeholder="Password"
             maxLength="30"
@@ -96,11 +77,14 @@ const onSubmit = evt=>{
               <div>{errors.username}</div>
               <div>{errors.password}</div>
               </div>
-          <button disabled={disabled}>Create Account</button>
-          <a href='#'>Back to Login</a>
-          {/* <Link to='/' className="logOutLink">Back to Login</Link> */}
-            </RegForm>
-        </RegBox>
+              <button className='regBtn' disabled={disabled}>Create Account</button>
+          {/* <a href='#'>Back to Login</a> */}
+          <Link to='/' className="logOutLink">Back to Login</Link>
+            </form>
+            <div style={{width: '100%'}}>
+            <Footer/>
+            </div>
+        </div>
         </div>
     )
 }

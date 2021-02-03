@@ -1,61 +1,149 @@
-import React, {useState, useEffect} from 'react';
-// import {Link} from 'react-router-dom'
-import './css/login.css'
+import React, {useState, useEffect} from 'react'; 
+import {Link} from 'react-router-dom'; 
+import * as yup from 'yup';
+import './css/login.css';
+import Footer from '../ComponentUnit3/Footer';
+import Header from '../ComponentUnit3/Header';
+import axiosWithAuth from '../ComponentUnit3/AxiosWithAuth'
 
+  const apiUrl = "https://node-buildwk-cookbook.herokuapp.com/api/auth/login"
 
-//set initial form values with an empty string.
-const initialLoginFormValues = {
+  const initialLoginFormValues = {
     userName: "",
     password: "",
 }
-
-//set the button disable true (boolean) at initial stage
 const intialButtonDisabled = true;
+const initialFormErrors = {
+  userName: "",
+  password: "",
+}
+const formSchema = yup.object().shape({
+  userName: yup.string().required("username is required"),
+  password: yup.string().required("password is required in order to login"),
+})
+export default function Login () {
 
-export default function Login (props) {
-    const {values, submit, change, disabled, errors} = props;
+  const [loginFormValues, setLoginFormValues] = useState(initialLoginFormValues)
+  const [buttonDisabled, setButtonDisabled] = useState(intialButtonDisabled)
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
 
-    const [loginFormValues, setLoginFormValues] = useState(initialLoginFormValues)
-    const [buttonDisabled, setButtonDisabled] = useState(intialButtonDisabled)
-    return (
-        <div className="loginBody">
-            <div className="login">
-                <div container>
-                    <div className="title">
-                        <h1> Grandma's Reciepes</h1>
-                    </div>
-                    <div className="loginForm">
-                        <form>
-                            <label>
-                                Username
-                                <input 
-                                    value={values}
-                                    type="text"
-                                    name=""
-                                    onChange=""
-                                />
-                            </label>
-                            <label>
-                                Password
-                                <input
-                                    value={values}
-                                    type="text"
-                                    name=""
-                                    onChange=""
-                                />
-                            </label>
-                            <button>Log in</button>  
-                        </form>
-                        <div className="registeration-link">
-                            Not a member yet? Please register
-                            {/* <Link to={'/registeration'}> */}
-                                <span> here</span>
-                            {/* </Link> */}
-                        </div>
-                    {/* </StyledLogInForm> */}
-                    </div>
+  const onChange = ((event) => {
+      const {name, value} = event.target;
+      setLoginFormValues({...loginFormValues,[name]:value});
+      console.log(loginFormValues)
+  })
+  const onLogin = ((event => {
+    event.preventDefault();
+    const user = {
+        userName: loginFormValues.userName,
+        password: loginFormValues.password,
+    }
+    
+    axiosWithAuth()
+     .post(apiUrl, user)
+     .then((response) => {
+      localStorage.setItem("username",user.username)
+      console.log(".post response", response);
+      return localStorage.setItem("token", response.data.token)
+      
+     })
+     .catch((error) => {
+         console.log('Username or password is wrong!', error)
+     })
+     .finally(() => {
+         setLoginFormValues(initialLoginFormValues)
+     })
+     window.location.href="/home"
+}))
+const setLoginErrors = ((name, value) => {
+  yup
+    .reach(formSchema, name)
+    .validate(value)
+    .then(() => {
+        setFormErrors({
+            ...formErrors, [name]:"",
+        })
+    })
+    .catch((error) => {
+        setFormErrors({
+            ...formErrors, [name]: error.errors[0],
+        })
+    })
+})
+
+useEffect(() => {
+  formSchema
+     .isValid(loginFormValues)
+     .then((valid) => {
+         setButtonDisabled(!valid)
+     }, [loginFormValues, formSchema])
+})
+
+  //   // console.log(user)
+  //   await axiosWithAuth()
+  //     .post(url, user,)
+  //     .then((res) => {
+  //       localStorage.setItem("username",user.username)
+  //       console.log(".post res", res);
+  //       return localStorage.setItem("token", res.data.token);
+  //     })
+      
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   //   window.location.href="/home";
+  // };
+
+  
+
+  
+  return (
+    <div className="loginBody">
+        <div className="login">
+            <div container>
+                {/* <div className="title">
+                    <h1> Grandma's Recipes</h1>
+                </div> */}
+                <Header />
+                <div className="errors">
+                    <div>{formErrors.userName}</div>
+                    <div>{formErrors.password}</div>
                 </div>
+                <div className="loginForm" onSubmit={onLogin}>
+                    <form onSubmit={onLogin}>
+                        <label>
+                            Username
+                            <input 
+                                // value={setLoginFormValues.userName}
+                                type="text"
+                                name="userName"
+                                onChange={onChange}
+                                errors={setLoginErrors}
+                            />
+                        </label>
+                        <label>
+                            Password
+                            <input
+                                // value={setLoginFormValues.password}
+                                type="text"
+                                name="password"
+                                onChange={onChange}
+                                errors={setLoginErrors}
+                            />
+                        </label>
+                        <button disabled={buttonDisabled}>Log in</button>  
+                    </form>
+                    <div className="registeration-link">
+                        Not a member yet? Please register
+                        <Link to={'/register'}>
+                            <span> here</span>
+                        </Link>
+                    </div>
+                {/* </StyledLogInForm> */}
+                </div>
+                <Footer />
             </div>
         </div>
-    )
+    </div>
+)
 }
