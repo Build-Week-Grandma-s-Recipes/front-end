@@ -7,6 +7,7 @@ import Recipe from './ComponentUnit3/Recipe'
 import Login from './ComponentUnit2/Login'
 import Register from './ComponentUnit2/Registration'
 import PrivateRoute from './ComponentUnit3/PrivateRoute'
+import Edit from './ComponentUnit3/Edit'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <PrivateRoute path='/research' component={Research} />
         <PrivateRoute path='/recipe/:id' component={Recipe}/>
         <PrivateRoute path='/home' component={Home} />
+        <PrivateRoute path='/edit/:id' component={Edit} />
       </Switch>
     </div>
   );
