@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'; //import hooks
-import {Link} from 'react-router-dom';
+import React, {useState, useEffect} from 'react'; 
+import {Link} from 'react-router-dom'; 
 import axios from 'axios';
 import * as yup from 'yup';
 import './css/login.css';
