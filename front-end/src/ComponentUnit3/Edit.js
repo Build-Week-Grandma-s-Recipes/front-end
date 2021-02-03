@@ -1,62 +1,51 @@
 
-import React, {useState, useEffect} from 'react'
-import { useParams, useHistory } from "react-router-dom";
-import axios from 'axios'
-import './css/AddRecipe.css'
+import React, {useState,useEffect} from 'react'
 import Footer from './Footer'
 import Header from './Header'
-function ItemEdit (props) {
-        
-    const emptyItem = {
-        recipe: '',
-        source: '',
-        ingredients: '',
-        quantity:'',
-        metric:'',
-        instruction:'',
-        category:''
-    };
-    const UpdateForm = props => {
-        const { push } = useHistory();
-        const [item, setItem] = useState(emptyItem);
-        const { id } = useParams();
-        // const { id } = props.match.params;
-      
-        useEffect(()=>{
-          axios.get(`http://localhost:3333/itemById/${id}`)
-          .then(res =>{
-            setItem(res.data)
-          })
-          .catch(err =>{
+import'./css/Recipe.css'
+import {useHistory}from 'react-router-dom'
+import axiosWithAuth from './AxiosWithAuth'
+
+const Edit = (props) => {
+    const history = useHistory()
+    const iDrecipe = props.match.params.id
+    const [item,setItem] = useState([])
+    useEffect(()=>{
+        axiosWithAuth()
+        .get('https://node-buildwk-cookbook.herokuapp.com/api/recipes')
+        .then(res =>{
+            console.log(res)
+           let i =  res.data.filter(x=> iDrecipe.includes(x.id) )
+        //    console.log(iDrecipe)
+        //    console.log(i[0])   
+           setItem(i[0]) 
+        })
+        .catch(err=>{
             console.log(err)
-          })
-        }, [])
-       
-        const changeHandler = ev => {
-          ev.persist();
-          let value = ev.target.value;      
-          setItem({
-            ...item,
-            [ev.target.name]: value
-          });
-        };
-      
-        const handleSubmit = e => {
-          e.preventDefault();
-          axios
-            .put(`http://localhost:3333/items/${id}`, item)
-            .then(res=>{
-              props.setItems(res.data)
-            })
-            .catch(err =>{
-              console.log(err)
-            })
-      
+        })
+    },[])
+    const deleteRecipe = Recipe => {
+        axiosWithAuth()
+        .delete(`/api/recipes/${iDrecipe}`)
+        .then(res =>{
+        //   console.log(res)
+          history.push('/home')
+        })
+        .catch(err =>{
+          console.error(err)
+        })
+    };
     
-        };
-
-
-        return(
+    const changeHandler = ev => {
+      ev.persist();
+      let value = ev.target.value;      
+      setItem({
+        ...item,
+        [ev.target.name]: value
+      });
+    };
+  
+    return(
 
             <div className='itemBody'>
                 <div className='homeBody'>
@@ -115,6 +104,6 @@ function ItemEdit (props) {
             
             
             )
-    }}
+    }
     
-    export default ItemEdit
+export default Edit

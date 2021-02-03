@@ -9,37 +9,37 @@ import axiosWithAuth from '../ComponentUnit3/AxiosWithAuth'
   const apiUrl = "https://node-buildwk-cookbook.herokuapp.com/api/auth/login"
 
   const initialLoginFormValues = {
-    userName: "",
+    username: "",
     password: "",
 }
 const intialButtonDisabled = true;
 const initialFormErrors = {
-  userName: "",
+  username: "",
   password: "",
 }
 const formSchema = yup.object().shape({
-  userName: yup.string().required("username is required"),
+  username: yup.string().required("username is required"),
   password: yup.string().required("password is required in order to login"),
 })
-export default function Login () {
+ function Login () {
 
   const [loginFormValues, setLoginFormValues] = useState(initialLoginFormValues)
   const [buttonDisabled, setButtonDisabled] = useState(intialButtonDisabled)
   const [formErrors, setFormErrors] = useState(initialFormErrors);
 
   const onChange = ((event) => {
-      const {name, value} = event.target;
-      setLoginFormValues({...loginFormValues,[name]:value});
+    //   const {name, value} = event.target;
+      setLoginFormValues({...loginFormValues,[event.target.name]:event.target.value});
       console.log(loginFormValues)
   })
-  const onLogin = ((event => {
+  async function onLogin(event){
     event.preventDefault();
     const user = {
-        userName: loginFormValues.userName,
+        userName: loginFormValues.username,
         password: loginFormValues.password,
     }
-    
-    axiosWithAuth()
+    //sending login information (username and password) to the api.
+    await axiosWithAuth()
      .post(apiUrl, user)
      .then((response) => {
       localStorage.setItem("username",user.username)
@@ -50,11 +50,8 @@ export default function Login () {
      .catch((error) => {
          console.log('Username or password is wrong!', error)
      })
-     .finally(() => {
-         setLoginFormValues(initialLoginFormValues)
-     })
      window.location.href="/home"
-}))
+}
 const setLoginErrors = ((name, value) => {
   yup
     .reach(formSchema, name)
@@ -106,17 +103,17 @@ useEffect(() => {
                 </div> */}
                 <Header />
                 <div className="errors">
-                    <div>{formErrors.userName}</div>
+                    <div>{formErrors.username}</div>
                     <div>{formErrors.password}</div>
                 </div>
-                <div className="loginForm" onSubmit={onLogin}>
+                <div className="loginForm">
                     <form onSubmit={onLogin}>
                         <label>
                             Username
                             <input 
                                 // value={setLoginFormValues.userName}
                                 type="text"
-                                name="userName"
+                                name="username"
                                 onChange={onChange}
                                 errors={setLoginErrors}
                             />
@@ -147,3 +144,4 @@ useEffect(() => {
     </div>
 )
 }
+export default Login
