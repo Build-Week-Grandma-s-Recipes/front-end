@@ -35,3 +35,11 @@
     padding:0;
     font-size:1rem;
 }
+.ing{
+    display: flex;
+}
+.recipeText{
+    margin:0 2vw;
+    display: block;
+    font-size:0.85rem;
+}

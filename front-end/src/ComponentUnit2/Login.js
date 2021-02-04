@@ -4,7 +4,8 @@ import * as yup from 'yup';
 import './css/login.css';
 import Footer from '../ComponentUnit3/Footer';
 import Header from '../ComponentUnit3/Header';
-import axiosWithAuth from '../ComponentUnit3/AxiosWithAuth'
+import axios from "axios";
+
 
   const apiUrl = "https://node-buildwk-cookbook.herokuapp.com/api/auth/login"
 
@@ -35,12 +36,12 @@ const formSchema = yup.object().shape({
   async function onLogin(event){
     event.preventDefault();
     const user = {
-        userName: loginFormValues.username,
+        username: loginFormValues.username,
         password: loginFormValues.password,
     }
     //sending login information (username and password) to the api.
-    await axiosWithAuth()
-     .post(apiUrl, user)
+    await axios
+     .post(apiUrl, user, { Headers: { "Content-type": "application/json" } })
      .then((response) => {
       localStorage.setItem("username",user.username)
       console.log(".post response", response);

@@ -22,11 +22,9 @@
     color:black;
     font-size:1rem;
 }
-.form div{
-    margin:2vh 0;
-}
+
 .input div{
-    margin-top:5vh;
+    margin-top:2vh;
 }
 .option select{
    height: 24px;
@@ -67,7 +65,9 @@
     display:inline;
     margin:0;    
 }
-
+.btndiv{
+    margin:auto 2vw; 
+}
 select{
     border-radius:15px;
 }
