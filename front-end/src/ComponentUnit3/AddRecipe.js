@@ -16,9 +16,8 @@ function ItemAdd (props) {
         category_id:1
     };  
         const [form, setForm] = useState(emptyItem);
-        const [buttonDisable, setButtonDisable] = useState(true);
-        const [errors, setErrors] = useState({recipe_name: '',source_name: ''});
-        const [submitComplete, setSubmitComplete]=useState(false)
+;
+        
             const inputChange = (e) => {
                     e.persist();
                     setForm({...form,[e.target.name]:e.target.value});
@@ -48,7 +47,6 @@ function ItemAdd (props) {
                     })
                         .then(resp=>{
                             console.log(resp)
-                            setSubmitComplete(true)
                             setForm(emptyItem)
                         })
                         .catch(err=>{
@@ -70,13 +68,13 @@ function ItemAdd (props) {
                         <div className='input'>
                         <div class="form-group">
                             <label >Recipe Name</label>
-                            <p className='error'>{errors.recipe_name}</p>
-                            <input className='inputRecipe' type="text" name='recipe_name' id='recipe_name' onChange={inputChange} className="form-control" placeholder="Recipe Name"/>
+                            <p className='error'></p>
+                            <input  type="text" name='recipe_name' id='recipe_name' onChange={inputChange} className="form-control" placeholder="Recipe Name"/>
                         </div>
                         <div class="form-group">
                             <label>Source</label>
-                            <p className='error'>{errors.source_name}</p>
-                            <input className='inputRecipe' type="text" name='source_name' id='source_name' onChange={inputChange} className="form-control" placeholder="Source"/>
+                            <p className='error'></p>
+                            <input type="text" name='source_name' id='source_name' onChange={inputChange} className="form control" placeholder="Source"/>
                         </div>
                        
                        
@@ -86,7 +84,7 @@ function ItemAdd (props) {
                                     <option value='main' onChange={inputChange}>Main</option>
                                     <option value='dessert' onChange={inputChange}>Dessert</option>
                                 </select>
-                                <p className='error'>{errors.category}</p>
+                                <p className='error'></p>
                             </div>
                         
                         <div className='btndiv'>
