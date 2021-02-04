@@ -1,9 +1,9 @@
 
-import React, {useState,useEffect} from 'react'
+import React, {useState} from 'react'
 import Footer from './Footer'
 import Header from './Header'
 import'./css/Recipe.css'
-import {useHistory}from 'react-router-dom'
+
 import axiosWithAuth from './AxiosWithAuth'
 
 const Edit = (props) => {
@@ -28,9 +28,9 @@ const Edit = (props) => {
     const [form, setForm] = useState(emptyItem);
     const [instruForm, setInstruForm] = useState(emptyInstru);
     const [ingreform, setIngreForm] = useState(emptyIngre);
-    const history = useHistory()
+  
     const iDrecipe = props.match.params.id
-    const [item,setItem] = useState([])
+   
     // useEffect(()=>{
     //     axiosWithAuth()
     //     .get('https://node-buildwk-cookbook.herokuapp.com/api/recipes')
