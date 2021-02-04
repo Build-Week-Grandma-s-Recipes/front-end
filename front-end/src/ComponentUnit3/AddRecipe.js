@@ -52,7 +52,7 @@ function ItemAdd (props) {
                         .catch(err=>{
                             console.log(err)
                         })
-                    
+                        window.location.href="/home"  
             };
 
 

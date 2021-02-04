@@ -28,7 +28,9 @@ import axiosWithAuth  from './AxiosWithAuth'
                 // console.log(recipeFind)
             })
             .catch(err=>{
+                window.location.href="/research"  
                 console.log(err)
+
             })
            
     }

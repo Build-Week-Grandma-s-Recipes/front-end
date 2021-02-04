@@ -30,6 +30,7 @@ const onChange = (evt) => {
     setFormErrors(name, value)
     setRegistration({...registration, [name]: value})
     console.log(registration)
+    console.log(errors)
   };
 // Button disable/enable toggle by validation
 useEffect(()=>{

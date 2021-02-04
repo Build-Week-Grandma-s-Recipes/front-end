@@ -29,31 +29,40 @@ const formSchema = yup.object().shape({
   const [formErrors, setFormErrors] = useState(initialFormErrors);
 
   const onChange = ((event) => {
-    //   const {name, value} = event.target;
+      const {name, value} = event.target;
       setLoginFormValues({...loginFormValues,[event.target.name]:event.target.value});
+      setLoginErrors(name, value)
       console.log(loginFormValues)
+      
   })
+  const [i , setI] = useState('')
   async function onLogin(event){
     event.preventDefault();
     const user = {
         username: loginFormValues.username,
         password: loginFormValues.password,
     }
+    // function action(){
+    //     window.location.href="/home"
+     
+    // }
     //sending login information (username and password) to the api.
     await axios
      .post(apiUrl, user, { Headers: { "Content-type": "application/json" } })
      .then((response) => {
       localStorage.setItem("username",user.username)
       console.log(".post response", response);
-      return localStorage.setItem("token", response.data.token)
+      window.location.href="/home"
+      return localStorage.setItem("token", response.data.token);
       
      })
      .catch((error) => {
+         setI('Username or password is wrong!')
          console.log('Username or password is wrong!', error)
      })
-     window.location.href="/home"
+     
 }
-const setLoginErrors = ((name, value) => {
+const setLoginErrors = (name, value) => {
   yup
     .reach(formSchema, name)
     .validate(value)
@@ -67,32 +76,14 @@ const setLoginErrors = ((name, value) => {
             ...formErrors, [name]: error.errors[0],
         })
     })
-})
+}
 
-useEffect(() => {
-  formSchema
-     .isValid(loginFormValues)
-     .then((valid) => {
-         setButtonDisabled(!valid)
-     }, [loginFormValues, formSchema])
-})
-
-  //   // console.log(user)
-  //   await axiosWithAuth()
-  //     .post(url, user,)
-  //     .then((res) => {
-  //       localStorage.setItem("username",user.username)
-  //       console.log(".post res", res);
-  //       return localStorage.setItem("token", res.data.token);
-  //     })
-      
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   //   window.location.href="/home";
-  // };
-
-  
+// useEffect(() => {
+//   formSchema.isValid(loginFormValues) .then(valid => {setButtonDisabled(!valid)}, [loginFormValues]
+// )
+useEffect(()=>{
+    formSchema.isValid(loginFormValues).then(valid => setButtonDisabled(!valid))
+},[loginFormValues])
 
   
   return (
@@ -112,23 +103,24 @@ useEffect(() => {
                         <label>
                             Username
                             <input 
-                                // value={setLoginFormValues.userName}
+                                value={loginFormValues.userName}
                                 type="text"
                                 name="username"
                                 onChange={onChange}
-                                errors={setLoginErrors}
+                                // errors={setLoginErrors}
                             />
                         </label>
                         <label>
                             Password
                             <input
-                                // value={setLoginFormValues.password}
+                                value={loginFormValues.password}
                                 type="text"
                                 name="password"
                                 onChange={onChange}
-                                errors={setLoginErrors}
+                                // errors={setLoginErrors}
                             />
                         </label>
+                        <p>{i}</p>
                         <button disabled={buttonDisabled}>Log in</button>  
                     </form>
                     <div className="registeration-link">
