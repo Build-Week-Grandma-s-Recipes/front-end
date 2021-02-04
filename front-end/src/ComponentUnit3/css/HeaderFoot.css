@@ -78,3 +78,8 @@ li{
     border-radius:20px;
     background-color:rgba(255, 255, 255, 0.849);
 }
+.HeaderTitle{
+    padding:0;
+    font-size :35px;
+    text-transform: none;
+}
